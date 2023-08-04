@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FileForm } from '../components/FileForm'
+import Chart1 from '../components/Chart1'
 
 export const Home = () => {
     const [rowFile, setRowFile] = useState(null)
@@ -38,6 +39,7 @@ export const Home = () => {
                     <h3>Predicted file</h3>
                 </div>
             )}
+            <Chart1 data={rowFile}/>
         </div>
     )
 }
