@@ -1,53 +1,62 @@
-import React from 'react'
-import { useForm } from "react-hook-form";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+export const FileForm = ({ onSelect, onResponse }) => {
+    const handleFileUpload = async (event) => {
+        const file = event?.target?.files[0]
 
-am4core.useTheme(am4themes_animated);
+        const reader = new FileReader()
+        reader.onload = (event) => {
+            const fileContent = event.target.result
+            const jsonData = JSON.parse(fileContent)
+            onSelect?.(jsonData)
+        }
+        reader.readAsText(file)
 
-const FileForm = () => {
-    const { register, handleSubmit } = useForm();
-    
+        const formData = new FormData()
+        formData.append('file', file)
 
-    const onSubmit = (dataJSON) => {
+        const result = await fetch('http://127.0.0.1:8080/predict', {
+            method: 'POST',
+            body: formData,
+        })
 
-    console.log(dataJSON);
-    
-    /* 
-
-    componentDidMount();{
-
-        
-        var chart = am4core.createFromConfig({
-            // Create pie series
-            "series": [{
-                    "type": "XYChart",
-                    
-                }],
-            "data": JSON.stringify(dataJSON),
-            "legend": {}
-        }, "chartdiv", am4charts.XYChart);
-        this.chart = chart;
+        const data = await result.json()
+        onResponse?.(data)
     }
-
-    render(); {
-        return (
-        <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
-        );
-    }
-     */  
-    };
 
     return (
-        <div className="App">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input type="file" {...register("file")} />
-
-                <input type="submit" />
-            </form>
+        <div
+            style={{
+                border: '1px solid white',
+                display: 'flex',
+                justifyContent: 'center',
+                padding: '20px',
+            }}
+        >
+            <label
+                htmlFor="file-upload"
+                style={{
+                    borderRadius: '4px',
+                    backgroundColor: 'white',
+                    padding: '10px 50px',
+                    fontSize: '20px',
+                    color: 'black',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                }}
+            >
+                Select file
+            </label>
+            <input
+                style={{
+                    opacity: 0,
+                    position: 'absolute',
+                    zIndex: '-1',
+                }}
+                id="file-upload"
+                type="file"
+                onChange={handleFileUpload}
+            />
         </div>
     )
 }
-
-export default FileForm
