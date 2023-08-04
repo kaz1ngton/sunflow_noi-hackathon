@@ -7,7 +7,9 @@ export const Home = () => {
     const [predictedFile, setPredictedFile] = useState(null)
 
     const handleSelect = (file) => {
-        setRowFile(file)
+        const filteredFile = file.filter(Boolean)
+
+        setRowFile(filteredFile)
     }
 
     const handleResponse = (data) => {
