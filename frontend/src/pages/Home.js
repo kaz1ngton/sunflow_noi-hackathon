@@ -18,7 +18,7 @@ export const Home = () => {
         setPreprocessedFile(data.preprocessed)
         setPredictedFile(data.predicted)
     }
-    const firstDatasetSeries = useFirstDatasetSeries(rowFile, rowFile)
+    const firstDatasetSeries = useFirstDatasetSeries(rowFile)
     const secondDatasetSeries = useSecondDatasetSeries(rowFile, rowFile)
 
     return (
@@ -27,7 +27,7 @@ export const Home = () => {
                 <Chart
                     yAxisLabel={'Power (W)'}
                     serieses={
-                        rowFile[0]['Power'] ? firstDatasetSeries : secondDatasetSeries
+                        rowFile[0][0]['Power'] ? firstDatasetSeries : secondDatasetSeries
                     }
                     yAxisText={'Power (W)'}
                 />
