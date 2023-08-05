@@ -6,6 +6,7 @@ export const FileForm = ({ onSelect, onResponse }) => {
         reader.onload = (event) => {
             const fileContent = event.target.result
             const jsonData = JSON.parse(fileContent)
+
             onSelect?.(jsonData)
         }
         reader.readAsText(file)
@@ -19,6 +20,7 @@ export const FileForm = ({ onSelect, onResponse }) => {
         })
 
         const data = await result.json()
+
         onResponse?.(data)
     }
 

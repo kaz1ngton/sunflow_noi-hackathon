@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FileForm } from '../components/FileForm'
+import { Chart } from '../components/Chart'
 
 export const Home = () => {
     const [rowFile, setRowFile] = useState(null)
@@ -17,12 +18,24 @@ export const Home = () => {
         setPredictedFile(data.predicted)
     }
 
+    const rowChartSeries = [
+        {
+            name: 'Power',
+            valueYField: 'Power',
+            categoryXField: 'Timestamp',
+            reference: useRef(null),
+        },
+    ]
+
     return (
         <div>
             {rowFile ? (
-                <div>
-                    <h3>Row file</h3>
-                </div>
+                <Chart
+                    data={rowFile}
+                    yAxisLabel={'Power (W)'}
+                    serieses={rowChartSeries}
+                    yAxisText={'Power (W)'}
+                />
             ) : (
                 <FileForm onResponse={handleResponse} onSelect={handleSelect} />
             )}
