@@ -14,27 +14,7 @@ import {
 } from '@amcharts/amcharts5/xy'
 import am5themes_Animated from '@amcharts/amcharts5/themes/Dark'
 
-export const Chart = ({ data, limit = 1000, yAxisText, yAxisLabel, serieses }) => {
-    const stepSize = Math.max(1, Math.floor(data.length / limit))
-    const selectedData = []
-
-    for (let i = 0; i < data.length; i += stepSize) {
-        selectedData.push(data[i])
-    }
-
-    const dataPoints = selectedData.map((dataItem) => {
-        const { Year, Month, Day, Timestamp } = dataItem
-        const [Hour, Minute, Second] = Timestamp.slice(0, -2).split(':')
-
-        return {
-            Power: dataItem['Power (W)'],
-            Timestamp: `${Day}/${Month}/${Year}`,
-            Date: new Date(Year, Month, Day, Hour, Minute, Second),
-        }
-    })
-
-    dataPoints.sort((a, b) => a.Date - b.Date)
-
+export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
     const xAxisRef = useRef(null)
 
     useLayoutEffect(() => {
@@ -99,6 +79,7 @@ export const Chart = ({ data, limit = 1000, yAxisText, yAxisLabel, serieses }) =
         chart.set('cursor', XYCursor.new(root, {}))
 
         xAxisRef.current = xAxis
+        console.log(chart.series)
 
         return () => {
             root.dispose()
@@ -106,12 +87,11 @@ export const Chart = ({ data, limit = 1000, yAxisText, yAxisLabel, serieses }) =
     }, [serieses, yAxisLabel, yAxisText])
 
     useLayoutEffect(() => {
-        xAxisRef.current.data.setAll(dataPoints)
-
+        xAxisRef.current?.data.setAll(serieses?.[0]?.data)
         serieses.forEach((series) => {
-            series.reference.current.data.setAll(dataPoints)
+            series.reference.current.data.setAll(series.data)
         })
-    }, [dataPoints, serieses])
+    }, [serieses])
 
     return <div id="chartdiv" style={{ width: '100%', height: '500px' }}></div>
 }
