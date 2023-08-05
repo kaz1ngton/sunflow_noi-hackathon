@@ -4,12 +4,21 @@ const mapFirstDataset = (data, limit) => {
     const mappedData = pickByLimit(data.filter(Boolean), limit).map((dataItem) => {
         const { Year, Month, Day, Timestamp } = dataItem
 
-        const [Hour, Minute, Second] = Timestamp.slice(0, -2).split(':')
+        let date
+        if (typeof Timestamp === 'string') {
+            const [Hour, Minute, Second] = Timestamp.slice(0, -2).split(':')
+            date = new Date(Year, Month, Day, Hour, Minute, Second)
+        } else {
+            const Hour = Math.floor(Timestamp / 3600)
+            const Minute = Math.floor((Timestamp - Hour * 3600) / 60)
+            const Second = Timestamp - Hour * 3600 - Minute * 60
+            date = new Date(Year, Month, Day, Hour, Minute, Second)
+        }
 
         return {
             Power: dataItem['Power (W)'],
             Timestamp: `${Day}/${Month}/${Year}`,
-            Date: new Date(Year, Month, Day, Hour, Minute, Second),
+            Date: date,
             Year: Number(Year),
         }
     })
@@ -79,13 +88,12 @@ export const mapDataset = (data, limit = 1000, raw = false) => {
     }
 
     if (raw) {
-        return mapRawDataset(data, limit)       
+        return mapRawDataset(data, limit)
     }
 
     if (data[0]['Timestamp'] !== undefined) {
         return mapFirstDataset(data, limit)
-    } 
+    }
 
     return mapSecondDataset(data, limit)
-
 }

@@ -34,14 +34,6 @@ export const useFirstDatasetSeries = (allraw, raw, preprocessed) => {
             data: preprocessed?.[0],
             hidden: false,
         },
-        {
-            name: 'Production/preprocessed',
-            valueYField: 'Power',
-            categoryXField: 'Timestamp',
-            reference: useRef(null),
-            data: preprocessed?.[1],
-            hidden: false,
-        },
     ]
 }
 

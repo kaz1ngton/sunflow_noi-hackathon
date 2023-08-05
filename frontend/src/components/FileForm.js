@@ -21,7 +21,9 @@ export const FileForm = ({ onSelect, onResponse }) => {
 
         const data = await result.json()
 
-        onResponse?.(data)
+        const json = JSON.parse(data.preprocessed)
+
+        onResponse?.(json.data)
     }
 
     return (

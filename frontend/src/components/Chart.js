@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react'
 
 import React from 'react'
 
-import * as am5 from "@amcharts/amcharts5";
+import * as am5 from '@amcharts/amcharts5'
 
 import { Label, Legend, Root, Tooltip, p50 } from '@amcharts/amcharts5'
 import {
@@ -19,11 +19,8 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Dark'
 export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
     const xAxisRef = useRef(null)
 
-
     useLayoutEffect(() => {
         const root = Root.new('chartdiv', XYChart)
-
-        
 
         root.setThemes([am5themes_Animated.new(root)])
 
@@ -33,14 +30,16 @@ export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
                 layout: root.verticalLayout,
             })
         )
-        
-        chart.get("colors").set("colors", [
-            am5.color(0xEC241E),
-            am5.color(0xF7B51C),
-            am5.color(0xE1811B),
-            am5.color(0x60F40C),
-            am5.color(0x19C619)
-          ]);
+
+        chart
+            .get('colors')
+            .set('colors', [
+                am5.color(0xec241e),
+                am5.color(0xf7b51c),
+                am5.color(0xe1811b),
+                am5.color(0x60f40c),
+                am5.color(0x19c619),
+            ])
 
         const yAxis = chart.yAxes.push(
             ValueAxis.new(root, {
@@ -66,10 +65,7 @@ export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
             })
         )
 
-        
-
-
-        serieses.forEach(({ name, valueYField, categoryXField, reference, hidden}) => {
+        serieses.forEach(({ name, valueYField, categoryXField, reference, hidden }) => {
             const series = chart.series.push(
                 LineSeries.new(root, {
                     name,
@@ -84,9 +80,8 @@ export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
                     }),
                 })
             )
-            
-            if (!hidden)
-            series.hide();
+
+            if (!hidden) series.hide()
 
             if (reference) {
                 reference.current = series

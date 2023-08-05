@@ -8,47 +8,39 @@ export const Home = () => {
     const [allRawData, setAllRawData] = useState(null)
     const [rawFile, setRawFile] = useState(null)
     const [preprocessedFile, setPreprocessedFile] = useState(null)
-    const [predictedFile, setPredictedFile] = useState(null)
-
-
 
     const handleSelect = (data) => {
         const mappedData = mapDataset(data, 1000)
         setRawFile(mappedData)
         const allData = mapDataset(data, 1000, true)
         setAllRawData(allData)
-
-        console.log(mappedData)
-
     }
-    
 
     const handleResponse = (data) => {
-        const mappedData = mapDataset(data.preprocessed, 1000)
+        const mappedData = mapDataset(data, 1000)
         setPreprocessedFile(mappedData)
-        //setPredictedFile(mappedData)
     }
-   
-    console.log(allRawData)
-    const firstDatasetSeries = useFirstDatasetSeries(allRawData, rawFile, preprocessedFile)
+
+    const firstDatasetSeries = useFirstDatasetSeries(
+        allRawData,
+        rawFile,
+        preprocessedFile
+    )
     const secondDatasetSeries = useSecondDatasetSeries(rawFile, preprocessedFile)
 
     return (
         <div>
-            {!rawFile && (
-                <FileForm onResponse={handleResponse} onSelect={handleSelect} />
-            )}
+            {!rawFile && <FileForm onResponse={handleResponse} onSelect={handleSelect} />}
 
-                {preprocessedFile && (
-                    <Chart
-                        yAxisLabel={'Power (W)'}
-                        serieses={
-                            rawFile[0][0]['Power'] ? firstDatasetSeries : secondDatasetSeries
-                        }
-                        yAxisText={'Power (W)'}
-                    />
+            {preprocessedFile && (
+                <Chart
+                    yAxisLabel={'Power (W)'}
+                    serieses={
+                        rawFile[0][0]['Power'] ? firstDatasetSeries : secondDatasetSeries
+                    }
+                    yAxisText={'Power (W)'}
+                />
             )}
-               
         </div>
     )
 }
