@@ -10,12 +10,32 @@ const mapFirstDataset = (data, limit) => {
             Power: dataItem['Power (W)'],
             Timestamp: `${Day}/${Month}/${Year}`,
             Date: new Date(Year, Month, Day, Hour, Minute, Second),
+            Year: Number(Year),
         }
     })
 
-    mappedData.sort((a, b) => a.Date - b.Date)
+    const consumptionChart = []
+    const productionChart = []
 
-    return mappedData
+    let isProducing = false
+
+    mappedData.forEach((item, i) => {
+        if (
+            !isProducing &&
+            i > 0 &&
+            mappedData[i - 1].Date.getFullYear() > item.Date.getFullYear()
+        ) {
+            isProducing = true
+        }
+
+        if (isProducing) {
+            productionChart.push(item)
+        } else {
+            consumptionChart.push(item)
+        }
+    })
+
+    return [consumptionChart, productionChart]
 }
 
 const mapSecondDataset = (data, limit) => {
@@ -31,7 +51,7 @@ const mapSecondDataset = (data, limit) => {
         }
     })
 
-    return mappedData
+    return [mappedData]
 }
 
 export const mapDataset = (data, limit = 1000) => {

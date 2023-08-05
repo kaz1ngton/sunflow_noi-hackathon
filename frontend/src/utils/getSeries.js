@@ -3,18 +3,18 @@ import { useRef } from 'react'
 export const useFirstDatasetSeries = (compared, toCompare) => {
     return [
         {
-            name: 'Power',
+            name: 'Consumption',
             valueYField: 'Power',
             categoryXField: 'Timestamp',
             reference: useRef(null),
-            data: compared,
+            data: compared?.[0],
         },
         {
-            name: 'Power',
+            name: 'Production',
             valueYField: 'Power',
             categoryXField: 'Timestamp',
             reference: useRef(null),
-            data: toCompare,
+            data: compared?.[1],
         },
     ]
 }

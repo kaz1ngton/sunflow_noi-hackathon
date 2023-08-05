@@ -79,7 +79,6 @@ export const Chart = ({ yAxisText, yAxisLabel, serieses }) => {
         chart.set('cursor', XYCursor.new(root, {}))
 
         xAxisRef.current = xAxis
-        console.log(chart.series)
 
         return () => {
             root.dispose()
