@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { FileForm } from '../components/FileForm'
 import { Chart } from '../components/Chart'
 
+
 export const Home = () => {
     const [rowFile, setRowFile] = useState(null)
     const [preprocessedFile, setPreprocessedFile] = useState(null)
