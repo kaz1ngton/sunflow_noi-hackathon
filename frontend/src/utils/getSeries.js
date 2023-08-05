@@ -1,20 +1,46 @@
 import { useRef } from 'react'
 
-export const useFirstDatasetSeries = (compared, toCompare) => {
+export const useFirstDatasetSeries = (allraw, raw, preprocessed) => {
     return [
+        {
+            name: 'Start data',
+            valueYField: 'Power',
+            categoryXField: 'Timestamp',
+            reference: useRef(null),
+            data: allraw?.[0],
+            hidden: true,
+        },
         {
             name: 'Consumption',
             valueYField: 'Power',
             categoryXField: 'Timestamp',
             reference: useRef(null),
-            data: compared?.[0],
+            data: raw?.[0],
+            hidden: false,
         },
         {
             name: 'Production',
             valueYField: 'Power',
             categoryXField: 'Timestamp',
             reference: useRef(null),
-            data: compared?.[1],
+            data: raw?.[1],
+            hidden: false,
+        },
+        {
+            name: 'Consumption/preprocessed',
+            valueYField: 'Power',
+            categoryXField: 'Timestamp',
+            reference: useRef(null),
+            data: preprocessed?.[0],
+            hidden: false,
+        },
+        {
+            name: 'Production/preprocessed',
+            valueYField: 'Power',
+            categoryXField: 'Timestamp',
+            reference: useRef(null),
+            data: preprocessed?.[1],
+            hidden: false,
         },
     ]
 }

@@ -54,14 +54,38 @@ const mapSecondDataset = (data, limit) => {
     return [mappedData]
 }
 
-export const mapDataset = (data, limit = 1000) => {
+const mapRawDataset = (data, limit) => {
+    const mappedData = pickByLimit(data.filter(Boolean), limit).map((dataItem) => {
+        const { Year, Month, Day, Timestamp } = dataItem
+
+        const [Hour, Minute, Second] = Timestamp.slice(0, -2).split(':')
+
+        return {
+            Power: dataItem['Power (W)'],
+            Timestamp: `${Day}/${Month}/${Year}`,
+            Date: new Date(Year, Month, Day, Hour, Minute, Second),
+            Year: Number(Year),
+        }
+    })
+
+    mappedData.sort((a, b) => a.Date - b.Date)
+
+    return [mappedData]
+}
+
+export const mapDataset = (data, limit = 1000, raw = false) => {
     if (!data || data.length === 0) {
         return []
     }
 
+    if (raw) {
+        return mapRawDataset(data, limit)       
+    }
+
     if (data[0]['Timestamp'] !== undefined) {
         return mapFirstDataset(data, limit)
-    } else {
-        return mapSecondDataset(data, limit)
-    }
+    } 
+
+    return mapSecondDataset(data, limit)
+
 }

@@ -5,47 +5,50 @@ import { mapDataset } from '../utils/mapDatasets'
 import { useFirstDatasetSeries, useSecondDatasetSeries } from '../utils/getSeries'
 
 export const Home = () => {
-    const [rowFile, setRowFile] = useState(null)
+    const [allRawData, setAllRawData] = useState(null)
+    const [rawFile, setRawFile] = useState(null)
     const [preprocessedFile, setPreprocessedFile] = useState(null)
     const [predictedFile, setPredictedFile] = useState(null)
 
+
+
     const handleSelect = (data) => {
         const mappedData = mapDataset(data, 1000)
-        setRowFile(mappedData)
+        setRawFile(mappedData)
+        const allData = mapDataset(data, 1000, true)
+        setAllRawData(allData)
+
+        console.log(mappedData)
+
     }
+    
 
     const handleResponse = (data) => {
-        setPreprocessedFile(data.preprocessed)
-        setPredictedFile(data.predicted)
+        const mappedData = mapDataset(data.preprocessed, 1000)
+        setPreprocessedFile(mappedData)
+        //setPredictedFile(mappedData)
     }
-    const firstDatasetSeries = useFirstDatasetSeries(rowFile)
-    const secondDatasetSeries = useSecondDatasetSeries(rowFile, rowFile)
+   
+    console.log(allRawData)
+    const firstDatasetSeries = useFirstDatasetSeries(allRawData, rawFile, preprocessedFile)
+    const secondDatasetSeries = useSecondDatasetSeries(rawFile, preprocessedFile)
 
     return (
         <div>
-            {rowFile ? (
-                <Chart
-                    yAxisLabel={'Power (W)'}
-                    serieses={
-                        rowFile[0][0]['Power'] ? firstDatasetSeries : secondDatasetSeries
-                    }
-                    yAxisText={'Power (W)'}
-                />
-            ) : (
+            {!rawFile && (
                 <FileForm onResponse={handleResponse} onSelect={handleSelect} />
             )}
 
-            {preprocessedFile && (
-                <div>
-                    <h3>Preprocessed file</h3>
-                </div>
+                {preprocessedFile && (
+                    <Chart
+                        yAxisLabel={'Power (W)'}
+                        serieses={
+                            rawFile[0][0]['Power'] ? firstDatasetSeries : secondDatasetSeries
+                        }
+                        yAxisText={'Power (W)'}
+                    />
             )}
-
-            {predictedFile && (
-                <div>
-                    <h3>Predicted file</h3>
-                </div>
-            )}
+               
         </div>
     )
 }
