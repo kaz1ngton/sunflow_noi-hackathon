@@ -149,3 +149,21 @@ input[type='file'] {
     cursor: pointer;
     outline: none;
 }
+
+.charts-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+
+.charts-buttons label{
+    cursor: pointer;
+}
+
+.checkbox{
+    cursor: pointer;
+    display: block;
+    appearance: none;
+    border-radius: 4px;
+}
