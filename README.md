@@ -1,4 +1,4 @@
-## Sunflow - [NOI Hackathon 2023 Summer Edition](https://hackathon.bz.it/?mtm_campaign=Summer+Hackathon+2023)
+# Sunflow - [NOI Hackathon 2023 Summer Edition](https://hackathon.bz.it/?mtm_campaign=Summer+Hackathon+2023)
 
 Sunflow - app for prediction weather and temperature data processing
 
@@ -10,7 +10,6 @@ Task was given by [Matrycs](https://matrycs.eu/) with time limit of `24 hours`.
 
 -   [Technologies](#technologies)
 -   [Setup and run](#setup-and-run)
--   [Contact](#contact)
 
 ## Technologies
 
